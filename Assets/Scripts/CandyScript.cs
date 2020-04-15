@@ -27,19 +27,25 @@ public class CandyScript : MonoBehaviour
         }
         else
         {
-            Instantiate(m_explosion, transform.position, Quaternion.identity);
+            GameObject ps = Instantiate(m_explosion, transform.position + Vector3.up * 0.1f, Quaternion.identity);
+            ////get particle system start color module
+            //ParticleSystem.MainModule main = ps.GetComponent<ParticleSystem>().main;
+            //ParticleSystem.MinMaxGradient grad = new ParticleSystem.MinMaxGradient(Color.blue, Color.red);
+            //main.startColor.mode = 
+
             m_audio.PlayGroundHit();
         }
-            
+        //Debug.Log("Time to destroy");
         //destroy candy when it hits
         Destroy(this.gameObject);
     }
 
     //set candy type and type dependant properties
-    public void SetCandyType(int type, Sprite sp)
+    public void SetCandyType(int type)
     {
         //set type variable
         m_type = type;
-        GetComponent<SpriteRenderer>().sprite = sp;
+        
     }
+
 }

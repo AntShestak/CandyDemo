@@ -18,14 +18,14 @@ public class AudioControlScript : MonoBehaviour
     public void PlayGroundHit()
     {
         m_audio.clip = m_groundHit;
-        m_audio.volume = 0.75f;
+        m_audio.volume = 0.25f;
         m_audio.Play();
     }
 
     public void PlayEatCandy()
     {
         m_audio.clip = m_eatCandy;
-        m_audio.volume = 0.35f;
+        m_audio.volume = 0.50f;
         m_audio.Play();
     }
 
