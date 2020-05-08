@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody2D m_rigid;    //reference to rigidbody component of Player
     PlayerAction m_action;  //reference to action script
+    SpriteRenderer m_rend;  //reference to renderer component
     float m_xTarget;        //target position on X axis
     float m_xStart;         //start of movement for interpolation
     //Vector2 m_s;
@@ -26,6 +27,8 @@ public class PlayerController : MonoBehaviour
         m_rigid = GetComponent<Rigidbody2D>();
         //get player action script reference
         m_action = GetComponent<PlayerAction>();
+        //get player action script reference
+        m_rend = GetComponent<SpriteRenderer>();
         //set target X position to current position
         m_xTarget = transform.position.x;
         m_xStart = transform.position.x;
@@ -131,4 +134,33 @@ public class PlayerController : MonoBehaviour
             m_direction = new Vector2(0.5f, 0f);
         }
     }
+
+    //freeze player 
+    public void Freeze()
+    {
+        //Start coroutine
+        StartCoroutine("Frozen");
+    }
+
+    IEnumerator Frozen()
+    {
+        float i = 0; //interpolator
+        float speed = 0.5f;
+        Color start = Color.blue;
+        Color end = Color.white;
+        Color current = start;
+        //interpolate
+        while (i <= 1)
+        {
+            //adjust color
+            m_rend.color = current;
+            //increase i
+            i += speed * Time.deltaTime;
+            //lerp color
+            current = Color.Lerp(start, end, i);
+            yield return 0;
+        }
+        
+    }
+
 }

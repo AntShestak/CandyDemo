@@ -8,6 +8,7 @@ public class ContainerScript : MonoBehaviour
     public GameObject m_uiCandy;
     public GameObject m_fire;
 
+    private PlayerController m_player; //reference to player script
     private ScoreManager m_scoreManager; //reference to score manager script
     private GameManager m_game; //reference to game manager component
     private Spawner m_spawner; //spawner reference
@@ -18,6 +19,9 @@ public class ContainerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //find player reference
+        m_player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        //find gamecontroller
         GameObject gameController = GameObject.FindGameObjectWithTag("GameController");
         //obtain reference for Score manager
         m_scoreManager = gameController.GetComponent<ScoreManager>();
@@ -104,6 +108,12 @@ public class ContainerScript : MonoBehaviour
             //we have fire candy here
             BurnContainer();
         }
+        else if (type == 6)
+        {
+            //ice candy picked up
+            m_player.Freeze();
+        }
+           
         
     }
 
