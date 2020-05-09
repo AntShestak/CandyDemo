@@ -31,7 +31,7 @@ public class Spawner : MonoBehaviour
             //time to spawn, calculate random factor
             float rand = Random.Range(1.0f,100.0f);
             //90% of chance to spawn normal candy
-            if (rand < 60.0f)
+            if (rand < 90.0f)
             {
                 //reset timer
                 m_spawnTimer = 0;

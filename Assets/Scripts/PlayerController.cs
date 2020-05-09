@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     SpriteRenderer m_rend;  //reference to renderer component
     float m_xTarget;        //target position on X axis
     float m_xStart;         //start of movement for interpolation
+    float m_speedHold = 15f;
+    float m_speedBase = 15f;
     //Vector2 m_s;
     //Vector2 m_t;
     float m_mi = 1;         //move interpolator
@@ -19,6 +21,7 @@ public class PlayerController : MonoBehaviour
 
     Vector2 m_direction; 
     bool m_usingDirection = false;
+    bool m_usingHold = false;
 
     // Start is called before the first frame update
     void Start()
@@ -39,17 +42,30 @@ public class PlayerController : MonoBehaviour
     {
         if (m_usingDirection)
         {
-            float x = m_rigid.position.x + m_direction.x * 15f * Time.fixedDeltaTime;
+            float x = m_rigid.position.x + m_direction.x * m_speedBase * Time.fixedDeltaTime;
             x = Mathf.Clamp(x, -(m_positionRange), m_positionRange);
-            m_rigid.MovePosition(new Vector2(x,0f));
+            m_rigid.MovePosition(new Vector2(x, 0f));
 
             //dragon is not gonna move further than bounds, so call stand when movd there
             if (Mathf.Abs(x) >= m_positionRange)
             {
                 m_action.Stand();
             }
-           
-                
+
+
+        }
+        else if (m_usingHold)
+        {
+
+            float x = m_rigid.position.x + m_direction.x * m_speedHold * Time.fixedDeltaTime;
+            x = Mathf.Clamp(x, -(m_positionRange), m_positionRange);
+            m_rigid.MovePosition(new Vector2(x, 0f));
+
+            //dragon is not gonna move further than bounds, so call stand when movd there
+            if (Mathf.Abs(x) >= m_positionRange)
+            {
+                m_action.Stand();
+            }
         }
         else
         {
@@ -81,6 +97,7 @@ public class PlayerController : MonoBehaviour
     public void SetTarget(float xTarget)
     {
         m_usingDirection = false; //to use normal mode of movement to target
+        m_usingHold = false; //no usage of hold input type
 
         //clamp x in range & set it as new target
         m_xTarget = Mathf.Clamp(xTarget, -(m_positionRange), m_positionRange);
@@ -117,9 +134,36 @@ public class PlayerController : MonoBehaviour
         m_direction = new Vector2(d, 0f);
     }
 
+    public void SetHold(float xStart)
+    {
+        m_usingHold = true; //no usage of hold input type
+        m_speedHold = m_speedBase * 0.4f; //increase m_current speed
+        m_action.Move(); //set action to move
+        //0.1 value is used to avoid rapid switching of sides when balancing phone (around 0)
+        if (xStart <= transform.position.x)
+        {
+            m_action.FaceLeft();
+            m_direction = new Vector2(-1, 0f);
+        }
+        else if (xStart > transform.position.x)
+        {
+            m_action.FaceRight();
+            m_direction = new Vector2(1, 0f);
+        }
+             
+    }
+
+    public void StopHold()
+    {
+        m_speedHold = 0;
+        m_action.Stand(); //stop running
+    }
+
+
     //same as gyro but here I can easily switch direction, because d is just positive or negative 0.5
     public void SetDirectionFromTouchPoint(Vector3 point)
     {
+        m_usingHold = false; //no usage of hold input type
         m_usingDirection = true; //moving using direction
         m_action.Move(); //set action to move
         //0.1 value is used to avoid rapid switching of sides when balancing phone (around 0)

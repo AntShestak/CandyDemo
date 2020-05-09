@@ -40,7 +40,7 @@ public class InputManager : MonoBehaviour
                 GyroInputs();
                 break;
             case 2:
-                TapDirectionInputs();
+                AlexTypeInputs();
                 break;
             case 3:
                 SwipeInputs();
@@ -125,22 +125,37 @@ public class InputManager : MonoBehaviour
         m_player.SetDirection(Input.acceleration.x);
     }
 
-    void TapDirectionInputs()
+    void AlexTypeInputs()
     {
         if (Input.touchSupported)
         {
             //Handling Touch inputs
             if (Input.touchCount > 0)
             {
-                ////get the 1st touch
-                //Touch touch = Input.GetTouch(0);
-                ////get touch position
-                //Vector2 touchPos = touch.position;
-                ////I only need position on X axis
-                //touchPos.x = (touchPos.x - width) / width;
-                Vector3 touchPos = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
-                //set it as target position (only moving on X axis).
-                m_player.SetDirectionFromTouchPoint(touchPos);
+                //i want to work with the last touch (touchCount -1)
+                Touch touch = Input.GetTouch(Input.touchCount - 1);
+                Vector3 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
+                // Handle finger movements based on touch phase.
+                switch (touch.phase)
+                {
+                    // Record initial touch position.
+                    case TouchPhase.Began:
+                        m_player.SetHold(touchPos.x);
+                        break;
+
+                    // // Determine direction by comparing the current touch position with the initial one.
+                    // case TouchPhase.Moved:
+                    //     direction = touch.position - startPos;
+                    //     break;
+
+                    // Report that a direction has been chosen when the finger is lifted.
+                    case TouchPhase.Ended:
+                        m_player.StopHold();
+                        break;
+
+                    default:
+                        break;
+                }
             }
         }
         else
