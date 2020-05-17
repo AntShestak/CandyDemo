@@ -27,7 +27,7 @@ public class CandyScript : MonoBehaviour
         }
         else
         {
-            GameObject ps = Instantiate(m_explosion, transform.position + Vector3.up * 0.1f, Quaternion.identity);
+            GameObject ps = Instantiate(m_explosion, transform.position + Vector3.up * 0.01f, Quaternion.identity);
             ////get particle system start color module
             //ParticleSystem.MainModule main = ps.GetComponent<ParticleSystem>().main;
             //ParticleSystem.MinMaxGradient grad = new ParticleSystem.MinMaxGradient(Color.blue, Color.red);

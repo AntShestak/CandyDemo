@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         m_canvas.GameOver();
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
     }
 
     public void RestartGame()

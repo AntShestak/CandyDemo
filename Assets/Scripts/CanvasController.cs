@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class CanvasController : MonoBehaviour
 {
     public GameObject m_gameOverPanel;
+    public GameObject m_scorePanel;
     public Text m_scoreText;
 
     public RowScript[] m_rows;
@@ -64,6 +65,8 @@ public class CanvasController : MonoBehaviour
     {
         //set Game over text
         m_gameOverPanel.SetActive(true);
+        //remove score (temporary)
+        m_scorePanel.SetActive(false);
     }
 
     //method returns length of integer

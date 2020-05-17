@@ -61,7 +61,7 @@ public class RowScript : MonoBehaviour
                 
             yield return null;
         }
-        Debug.Log("Scroll To Next finished with new number: " + m_current.ToString());
+        //Debug.Log("Scroll To Next finished with new number: " + m_current.ToString());
     }
 
     //scroll coroutine (towards desired number)
@@ -70,9 +70,9 @@ public class RowScript : MonoBehaviour
         //play particles system
         m_ps.Play();
         //do two full scrolls
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < 10; i++)
         {
-            Debug.Log("Calling scroll to next!");
+            //Debug.Log("Calling scroll to next!");
             yield return StartCoroutine("ScrollToNext");
         }
         //now going after desired number

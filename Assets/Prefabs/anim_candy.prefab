@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 8174737847083108653}
   - component: {fileID: 8174737847083108643}
   - component: {fileID: 8174737847083108640}
-  - component: {fileID: 8174737847083108641}
-  - component: {fileID: 2979651555474975517}
+  - component: {fileID: 778268566}
+  - component: {fileID: 1434730384103036892}
   m_Layer: 8
   m_Name: anim_candy
   m_TagString: Untagged
@@ -72,8 +72,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 7faff24cc79b76d48ad9244f5ccefc3c, type: 3}
+  m_SortingOrder: 15
+  m_Sprite: {fileID: -4246731088286760998, guid: b512799c99e1b4642939dfe40afd8150,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -121,21 +122,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.28
---- !u!114 &8174737847083108641
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8174737847083108652}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 384b0ebc516315c46bd82b5611a69771, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_explosion: {fileID: 161561931845615433, guid: 22bd06f6f4688d94b993b6ae4f91c2fa,
-    type: 3}
---- !u!95 &2979651555474975517
+--- !u!95 &778268566
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 0
@@ -154,3 +141,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1434730384103036892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8174737847083108652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 384b0ebc516315c46bd82b5611a69771, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_explosion: {fileID: 2110936192790966369, guid: 1541b1130fc9bbc4abf2ad18229ce075,
+    type: 3}
+  m_audio: {fileID: 0}

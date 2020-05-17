@@ -29,25 +29,30 @@ public class InputManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //depending on input mode
-        switch (m_inputMode)
+        //if player is alive
+        if (!m_player.IsDead())
         {
-            //normal input mode
-            case 0:
-                NormalInputs(); //run update
-                break;
-            case 1:
-                GyroInputs();
-                break;
-            case 2:
-                AlexTypeInputs();
-                break;
-            case 3:
-                SwipeInputs();
-                break;
-            default:
-                break;
+            //depending on input mode
+            switch (m_inputMode)
+            {
+                //normal input mode
+                case 0:
+                    NormalInputs(); //run update
+                    break;
+                case 1:
+                    GyroInputs();
+                    break;
+                case 2:
+                    AlexTypeInputs();
+                    break;
+                case 3:
+                    SwipeInputs();
+                    break;
+                default:
+                    break;
+            }
         }
+        
         
         
     }

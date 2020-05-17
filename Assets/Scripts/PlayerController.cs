@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [HideInInspector] public bool m_isDead = false; //flag
     public float m_movementSpeed = 0.1f; //movement speed of player object
     public float m_positionRange = 6.0f; //the furthest point on X axis player can go
 
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour
     //Vector2 m_t;
     float m_mi = 1;         //move interpolator
     bool m_isStoped = true; //flag boolean
+    
 
     Vector2 m_direction; 
     bool m_usingDirection = false;
@@ -40,57 +42,62 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (m_usingDirection)
+        //update only if player is alive
+        if (!m_isDead)
         {
-            float x = m_rigid.position.x + m_direction.x * m_speedBase * Time.fixedDeltaTime;
-            x = Mathf.Clamp(x, -(m_positionRange), m_positionRange);
-            m_rigid.MovePosition(new Vector2(x, 0f));
-
-            //dragon is not gonna move further than bounds, so call stand when movd there
-            if (Mathf.Abs(x) >= m_positionRange)
+            if (m_usingDirection)
             {
-                m_action.Stand();
+                float x = m_rigid.position.x + m_direction.x * m_speedBase * Time.fixedDeltaTime;
+                x = Mathf.Clamp(x, -(m_positionRange), m_positionRange);
+                m_rigid.MovePosition(new Vector2(x, 0f));
+
+                //dragon is not gonna move further than bounds, so call stand when movd there
+                if (Mathf.Abs(x) >= m_positionRange)
+                {
+                    m_action.Stand();
+                }
+
+
             }
-
-
-        }
-        else if (m_usingHold)
-        {
-
-            float x = m_rigid.position.x + m_direction.x * m_speedHold * Time.fixedDeltaTime;
-            x = Mathf.Clamp(x, -(m_positionRange), m_positionRange);
-            m_rigid.MovePosition(new Vector2(x, 0f));
-
-            //dragon is not gonna move further than bounds, so call stand when movd there
-            if (Mathf.Abs(x) >= m_positionRange)
+            else if (m_usingHold)
             {
-                m_action.Stand();
-            }
-        }
-        else
-        {
-            //Problems: Short distances moves slower, long distance very fast
-            if (m_mi < 1)
-            {
-                //increase interpolator value
-                m_mi += Time.deltaTime * m_movementSpeed;
-                //adjust position
-                transform.position = new Vector3(Mathf.Lerp(m_xStart, m_xTarget, m_mi), transform.position.y, transform.position.z);
-                //Debug.Log("X current: " + transform.position.x.ToString() + "   | Target: " + m_xTarget.ToString());
-                //Debug.Log("Interpolator: " + m_mi.ToString());
+
+                float x = m_rigid.position.x + m_direction.x * m_speedHold * Time.fixedDeltaTime;
+                x = Mathf.Clamp(x, -(m_positionRange), m_positionRange);
+                m_rigid.MovePosition(new Vector2(x, 0f));
+
+                //dragon is not gonna move further than bounds, so call stand when movd there
+                if (Mathf.Abs(x) >= m_positionRange)
+                {
+                    m_action.Stand();
+                }
             }
             else
             {
-                //check if it was already stopped
-                if (!m_isStoped)
+                //Problems: Short distances moves slower, long distance very fast
+                if (m_mi < 1)
                 {
-                    //set action to stand
-                    m_action.Stand();
-                    //set flag
-                    m_isStoped = true;
+                    //increase interpolator value
+                    m_mi += Time.deltaTime * m_movementSpeed;
+                    //adjust position
+                    transform.position = new Vector3(Mathf.Lerp(m_xStart, m_xTarget, m_mi), transform.position.y, transform.position.z);
+                    //Debug.Log("X current: " + transform.position.x.ToString() + "   | Target: " + m_xTarget.ToString());
+                    //Debug.Log("Interpolator: " + m_mi.ToString());
+                }
+                else
+                {
+                    //check if it was already stopped
+                    if (!m_isStoped)
+                    {
+                        //set action to stand
+                        m_action.Stand();
+                        //set flag
+                        m_isStoped = true;
+                    }
                 }
             }
         }
+        
     }
 
     //set's new target for player (only x pos is relevant)
@@ -205,6 +212,28 @@ public class PlayerController : MonoBehaviour
             yield return 0;
         }
         
+    }
+
+    public void Die()
+    {
+        if (!m_isDead)
+        {
+            //player gets squashed
+            transform.localScale = new Vector3(transform.localScale.x * 1.25f, transform.localScale.y * 0.1f, transform.localScale.z);
+            //remove capsule collider
+            GetComponent<CapsuleCollider2D>().enabled = false;
+            //is dead
+            m_isDead = true;
+            //tell game manager
+            GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().GameOver();
+        }
+        
+
+    }
+
+    public bool IsDead()
+    {
+        return m_isDead;
     }
 
 }
