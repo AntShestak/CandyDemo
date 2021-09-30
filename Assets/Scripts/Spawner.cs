@@ -16,6 +16,10 @@ public class Spawner : MonoBehaviour
     float m_spawnTimer = 0;
     float m_lastAnvilSpawnTime = 0;
 
+    //spawn rates
+    float m_normalCandyPerc = 92.0f;
+    float m_specialCandyPerc = 5.0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,8 +37,9 @@ public class Spawner : MonoBehaviour
             //time to spawn, calculate random factor
             float rand = Random.Range(1.0f,100.0f);
             //90% of chance to spawn normal candy
-            if (rand < 80.0f)
+            if (rand < m_normalCandyPerc)
             {
+                
                 //reset timer
                 m_spawnTimer = 0;
                 //get random x position  
@@ -45,7 +50,7 @@ public class Spawner : MonoBehaviour
                 candy.GetComponent<CandyScript>().SetCandyType(type);
                 candy.GetComponent<SpriteRenderer>().sprite = m_sprites[type - 1];
             }
-            else if (rand < 96.0f)
+            else if (rand < m_normalCandyPerc + m_specialCandyPerc)
             {
                 //Debug.Log("Deliver special candy");
                 //spawn animated special candy

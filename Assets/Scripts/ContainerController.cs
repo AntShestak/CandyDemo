@@ -13,6 +13,11 @@ public class ContainerController : MonoBehaviour
 
     private int m_currentBlock = 0; //0 is for left block
 
+    //1)Containers can be chosen by player
+    //2)Contaiers change automatically upon collecting a candy
+    //one of this option is used
+    bool m_autoSwap = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,21 +41,63 @@ public class ContainerController : MonoBehaviour
         {
             //tell left block we got a candy
             m_leftBlock.GetComponent<ContainerScript>().AddCandy(type);
-            //now we have finished with left block, swap sprites
-            m_leftBlock.GetComponent<Image>().color = m_normal;
-            m_rightBlock.GetComponent<Image>().color = m_highlight;
-            //set identificator
-            m_currentBlock = 1;
+            
+
+            if (m_autoSwap)
+            {
+                //now we have finished with left block, swap sprites
+                m_leftBlock.GetComponent<Image>().color = m_normal;
+                m_rightBlock.GetComponent<Image>().color = m_highlight;
+                //set identificator
+                m_currentBlock = 1;
+            }
+
+                
         }
         else
         {
             //tell left RIGHT we got a candy
             m_rightBlock.GetComponent<ContainerScript>().AddCandy(type);
-            //now we have finished with right block, swap sprites
-            m_leftBlock.GetComponent<Image>().color= m_highlight;
-            m_rightBlock.GetComponent<Image>().color = m_normal;
-            //set identificator
-            m_currentBlock = 0;
+
+
+            if (m_autoSwap)
+            {
+                //now we have finished with right block, swap sprites
+                m_leftBlock.GetComponent<Image>().color = m_highlight;
+                m_rightBlock.GetComponent<Image>().color = m_normal;
+                //set identificator
+                m_currentBlock = 0;
+            }
+               
         }
+    }
+
+    public void ActivateContainer(int id)
+    {
+        Debug.Log("Activating container " + id.ToString());
+        //if no auto swap change container
+        if (!m_autoSwap)
+            m_currentBlock = id;
+
+        if (id == 0)
+        {
+            //now we have finished with right block, swap sprites
+            m_leftBlock.GetComponent<Image>().color = m_highlight;
+            m_rightBlock.GetComponent<Image>().color = m_normal;
+        }
+        else
+        {
+            m_leftBlock.GetComponent<Image>().color = m_normal;
+            m_rightBlock.GetComponent<Image>().color = m_highlight;
+        }
+    }
+
+
+    //debug capabilities
+
+    //changing container swap method
+    public void ChangeSwapMethod()
+    {
+        m_autoSwap = !m_autoSwap;
     }
 }

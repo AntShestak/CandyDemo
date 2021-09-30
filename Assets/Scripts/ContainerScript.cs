@@ -10,7 +10,6 @@ public class ContainerScript : MonoBehaviour
 
     private PlayerController m_player; //reference to player script
     private ScoreManager m_scoreManager; //reference to score manager script
-    private GameManager m_game; //reference to game manager component
     private Spawner m_spawner; //spawner reference
     public Sprite m_defaultSprite;
     private List<UICandyScript> m_candies = new List<UICandyScript>();
@@ -25,8 +24,6 @@ public class ContainerScript : MonoBehaviour
         GameObject gameController = GameObject.FindGameObjectWithTag("GameController");
         //obtain reference for Score manager
         m_scoreManager = gameController.GetComponent<ScoreManager>();
-        //obtain game manager reference
-        m_game = gameController.GetComponent<GameManager>();
         //obtain spawner script reference
         m_spawner = gameController.GetComponent<Spawner>();
 
@@ -57,6 +54,14 @@ public class ContainerScript : MonoBehaviour
         //check which type of candy we have
         if (type <= 4)
         {
+            //player had a chance to catch fire candy to save himself it's another normal candy
+            if (m_iterator >= 10)
+            {
+                GameManager.instance.GameOver();
+                return;
+            }
+                
+            
             //NORMAL candy
             Sprite spr = m_spawner.GetSpriteOfType(type);
             //access candy using iterator
@@ -99,9 +104,9 @@ public class ContainerScript : MonoBehaviour
             //increase iterator
             m_iterator++;
             //check if belly is full
-            if (m_iterator > 11)
-                //set game over
-                m_game.GameOver();
+            //if (m_iterator >= 11)
+            //    //set game over
+            //    GameManager.instance.GameOver();
         }
         else if (type == 5)
         {
@@ -143,7 +148,7 @@ public class ContainerScript : MonoBehaviour
             m_candies[m_iterator].SetType(0,m_defaultSprite);
         }
 
-        m_scoreManager.AddPoints(100);
+        m_scoreManager.AddPoints(12);
        
     }
    

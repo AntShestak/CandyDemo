@@ -47,4 +47,9 @@ public class PlayerAction : MonoBehaviour
         //rotate 180 degrees on y axis from base rotation
         transform.rotation = Quaternion.Euler(0.0f, 180.0f, 0.0f);
     }
+
+    public void Squeeze()
+    {
+        m_anim.SetTrigger("Smash");
+    }
 }

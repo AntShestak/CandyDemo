@@ -5,26 +5,39 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private CanvasController m_canvas;
+    public static GameManager instance;
 
-    // Start is called before the first frame update
+
+    private void Awake()
+    {
+        instance = this;
+    }
+    
     void Start()
     {
         Time.timeScale = 1;
-        m_canvas = GameObject.FindGameObjectWithTag("Canvas").GetComponent<CanvasController>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     //method that handles Games Over behaviour
     public void GameOver()
     {
-        m_canvas.GameOver();
+        Invoke("GameOverDelay", 2.5f);
         //Time.timeScale = 0;
+        
+    }
+
+    private void GameOverDelay()
+    {
+        SetOnPause(true);
+        ScoreManager.instance.GameOver();    
+    }
+
+    public void SetOnPause(bool value)
+    {
+        if (value)
+            Time.timeScale = 0;
+        else
+            Time.timeScale = 1;
     }
 
     public void RestartGame()
