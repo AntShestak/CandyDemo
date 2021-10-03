@@ -9,7 +9,7 @@ using System;
 public class SaveManager : MonoBehaviour
 {
     public static SaveManager instance;
-
+    
     // Start is called before the first frame update
     void Awake()
     {

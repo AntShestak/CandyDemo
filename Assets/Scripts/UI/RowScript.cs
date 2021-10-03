@@ -92,5 +92,10 @@ public class RowScript : MonoBehaviour
         StartCoroutine(cor);
     }
 
+    public void SetNumberInstant(int number)
+    {
+        //instantly set the right number
+        SetPosition(m_posY[number]);
+    }
     
 }

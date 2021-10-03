@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    CanvasController m_canvas;
+    bool m_isGameOver = false;
 
     private void Awake()
     {
@@ -15,7 +17,10 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
+        m_canvas = FindObjectOfType<CanvasController>();
+
         Time.timeScale = 1;
+
     }
 
     //method that handles Games Over behaviour
@@ -28,18 +33,13 @@ public class GameManager : MonoBehaviour
 
     private void GameOverDelay()
     {
-        SetOnPause(true);
-        ScoreManager.instance.GameOver();    
+        m_isGameOver = true;
+        SetPauseOn();
+        m_canvas.GameOver();    
     }
 
-    public void SetOnPause(bool value)
-    {
-        if (value)
-            Time.timeScale = 0;
-        else
-            Time.timeScale = 1;
-    }
-
+    public void SetPauseOn() => Time.timeScale = 0;
+    public void SetPauseOff() => Time.timeScale = 1.0f;
     public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
